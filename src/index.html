@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<head>
+    <title>RedAgate Live Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        html {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background-color: rgb(119, 11, 11);
+            color: whitesmoke;
+        }
+        #preview {
+            width: 100%;
+            height: calc(100% - 100px);
+            background-color: lightgrey;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+    <script>
+        require.config({
+            paths: {
+                app: 'app'
+            }
+        });
+
+        function renderReport(name) {
+            require(['app'], function(app) {
+                var handler = app.barcodeTestHandler;
+                var data = app.kanbanData;
+
+                switch (name) {
+                case 'billing':
+                    handler = app.billngReportHandler;
+                    data = app.billngData;
+                    break;
+                case 'kanban':
+                    handler = app.kanbanReportHandler;
+                    data = app.kanbanData;
+                    break;
+                case 'fba-a4':
+                    handler = app.fbaA4ReportHandler;
+                    data = app.kanbanData;
+                    break;
+                case 'barcode-test':
+                    handler = app.barcodeTestHandler;
+                    data = app.kanbanData;
+                    break;
+                }
+                handler(data, {}, function(error, result) {
+                    if (error) {
+                        console.error(error);
+                    } else {
+                        var iframe = document.getElementById('preview');
+                        iframe.src = 'data:text/html;base64,' + btoa(unescape(encodeURIComponent(result)));
+                    }
+                });
+            });
+        }
+
+        renderReport();
+    </script>
+</head>
+<body>
+    <iframe id="preview"></iframe>
+    <form style="margin: 10px;">
+        <div style="display: flex;">
+            <div><img src="https://shellyln.github.io/assets/image/redagate-logo.svg" style="width: 200px;"></div>
+            <div style="margin-left: 20px;">
+                <h3>RedAgate Live Demo</h3>
+                <button type="button" class="btn btn-danger" onclick="renderReport('billing')">Billing</button>
+                <button type="button" class="btn btn-danger" onclick="renderReport('kanban')">Kanban</button>
+                <button type="button" class="btn btn-danger" onclick="renderReport('fba-a4')">FBA Label</button>
+                <button type="button" class="btn btn-danger" onclick="renderReport('barcode-test')">Barcodes</button>
+            </div>
+        </div>
+    </form>
+</body>
