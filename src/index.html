@@ -28,7 +28,7 @@
             }
         });
 
-        function renderReport(name) {
+        function renderReport(name, runPrint) {
             require(['app'], function(app) {
                 var handler = app.barcodeTestHandler;
                 var data = app.kanbanData;
@@ -56,6 +56,9 @@
                         console.error(error);
                     } else {
                         var iframe = document.getElementById('preview');
+                        if (runPrint) {
+                            result = result.replace(/<\/body>\s*(<\/html>\s*)$/, '<script>window.print()<' + '/script></body>$1');
+                        }
                         iframe.src = 'data:text/html;base64,' + btoa(unescape(encodeURIComponent(result)));
                     }
                 });
@@ -72,10 +75,10 @@
             <div><img src="https://shellyln.github.io/assets/image/redagate-logo.svg" style="width: 200px;"></div>
             <div style="margin-left: 20px;">
                 <h3>RedAgate Live Demo</h3>
-                <button type="button" class="btn btn-danger" onclick="renderReport('billing')">Billing</button>
-                <button type="button" class="btn btn-danger" onclick="renderReport('kanban')">Kanban</button>
-                <button type="button" class="btn btn-danger" onclick="renderReport('fba-a4')">FBA Label</button>
-                <button type="button" class="btn btn-danger" onclick="renderReport('barcode-test')">Barcodes</button>
+                <button type="button" class="btn btn-danger" onclick="renderReport('billing', true)">Billing</button>
+                <button type="button" class="btn btn-danger" onclick="renderReport('kanban', true)">Kanban</button>
+                <button type="button" class="btn btn-danger" onclick="renderReport('fba-a4', true)">FBA Label</button>
+                <button type="button" class="btn btn-danger" onclick="renderReport('barcode-test', true)">Barcodes</button>
             </div>
         </div>
     </form>
