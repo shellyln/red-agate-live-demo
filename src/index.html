@@ -101,8 +101,9 @@
                         iframe.src = 'data:text/html;base64,' + btoa(unescape(encodeURIComponent(
                             '<html><body>' +
                             '<link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">' +
-                            '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">' +
-                            '<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"><' + '/script>' +
+                            '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">' +
+                            '<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"><' + '/script>' +
+                            '<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"><' + '/script>' +
                             '<pre><code class="typescript" style="overflow: visible !important; font-family: \'Ubuntu Mono\', monospace;">' + escapeHtml(res.text.trim()) + '</code></pre>' +
                             '<script>hljs.initHighlightingOnLoad();<' + '/script>' +
                             '</body></html>'
