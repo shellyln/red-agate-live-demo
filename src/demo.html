@@ -39,6 +39,34 @@
             }
         });
 
+        function isIeOrEdge() {
+            return (
+                navigator.appName == 'Microsoft Internet Explorer' ||
+                (navigator.appName == "Netscape" && navigator.appVersion.indexOf('Edge') > -1)
+            );
+        }
+
+        function setContentToIframe(iframe, content) {
+            if (isIeOrEdge()) {
+                var blob = new Blob([content], {type : 'text/html'});
+                iframe.src = URL.createObjectURL(blob);
+                setTimeout(function() {
+                    try {
+                        blob.msClose();
+                    } catch (e) {
+                        console.error(e);
+                        try {
+                            blob.close();
+                        } catch (e2) {
+                            console.error(e2);
+                        }
+                    }
+                }, 5000);
+            } else {
+                iframe.src = 'data:text/html;base64,' + btoa(unescape(encodeURIComponent(content)));
+            }
+        }
+
         function escapeHtml(s) {
             return s
                 .replace(/&/g, "&amp;")
@@ -85,11 +113,10 @@
                     if (error) {
                         console.error(error);
                     } else {
-                        var iframe = document.getElementById('preview');
                         if (runPrint) {
                             result = result.replace(/<\/body>\s*(<\/html>\s*)$/, '<script>window.print()<' + '/script></body>$1');
                         }
-                        iframe.src = 'data:text/html;base64,' + btoa(unescape(encodeURIComponent(result)));
+                        setContentToIframe(document.getElementById('preview'), result);
                     }
                 });
                 var request = window.superagent;
@@ -97,8 +124,7 @@
                 .get(src)
                 .end(function(err, res){
                     if (res) {
-                        var iframe = document.getElementById('preview-src');
-                        iframe.src = 'data:text/html;base64,' + btoa(unescape(encodeURIComponent(
+                        setContentToIframe(document.getElementById('preview-src'),
                             '<html><body>' +
                             '<link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">' +
                             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">' +
@@ -107,7 +133,7 @@
                             '<pre><code class="tsx" style="overflow: visible !important; font-family: \'Ubuntu Mono\', monospace;">' + escapeHtml(res.text.trim()) + '</code></pre>' +
                             '<script>hljs.initHighlightingOnLoad();<' + '/script>' +
                             '</body></html>'
-                        )));
+                        );
                     }
                 });
             });
