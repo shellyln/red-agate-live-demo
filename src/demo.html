@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <head>
     <title>RedAgate Live Demo</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <style>
         html {
             height: 100%;
@@ -13,6 +15,19 @@
             overflow: hidden;
             background-color: rgb(119, 11, 11);
             color: whitesmoke;
+        }
+        .switch-wrap {
+            display: flex;
+            margin: 5px 5px 10px;
+        }
+        .switch-labal {
+            width: 160px;
+        }
+        .switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #ff8a80 !important;
+        }
+        .switch label input[type=checkbox]:checked+.lever {
+            background-color: #e53935 !important;
         }
         #preview-wrap {
             width: 100%;
@@ -35,6 +50,8 @@
     <script>
         require.config({
             paths: {
+                jquery: 'https://code.jquery.com/jquery-3.2.1.min.js',
+                materialize: 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js',
                 app: 'app'
             }
         });
@@ -151,24 +168,38 @@
         <div style="display: flex;">
             <div><a href="https://shellyln.github.io/red-agate/"><img src="https://shellyln.github.io/assets/image/redagate-logo.svg" style="width: 200px;"></a></div>
             <div style="margin-left: 20px;">
-                <h3>RedAgate Live Demo</h3>
-                <button type="button" class="btn btn-danger" onclick="renderReport('billing', document.configForm.doPrint.checked)">Billing</button>
-                <button type="button" class="btn btn-danger" onclick="renderReport('kanban', document.configForm.doPrint.checked)">Kanban</button>
-                <button type="button" class="btn btn-danger" onclick="renderReport('fba-a4', document.configForm.doPrint.checked)">FBA Label</button>
-                <button type="button" class="btn btn-danger" onclick="renderReport('barcode-test', document.configForm.doPrint.checked)">Barcodes</button>
+                <h5>RedAgate Live Demo</h5>
+                <button type="button" class="waves-effect waves-light btn red darken-1" onclick="renderReport('billing', document.configForm.doPrint.checked)">Billing</button>
+                <button type="button" class="waves-effect waves-light btn red darken-1" onclick="renderReport('kanban', document.configForm.doPrint.checked)">Kanban</button>
+                <button type="button" class="waves-effect waves-light btn red darken-1" onclick="renderReport('fba-a4', document.configForm.doPrint.checked)">FBA Label</button>
+                <button type="button" class="waves-effect waves-light btn red darken-1" onclick="renderReport('barcode-test', document.configForm.doPrint.checked)">Barcodes</button>
             </div>
             <div style="margin-left: 40px;">
-                <div>
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="showCode" onchange="toggleCode()">
+                <div class="switch-wrap">
+                    <div class="switch-labal">
                         <span>Show code</span>
-                    </label>
+                    </div>
+                    <div class="switch">
+                        <label>
+                            Off
+                            <input type="checkbox" name="showCode" onchange="toggleCode()">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
                 </div>
-                <div>
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="doPrint">
+                <div class="switch-wrap">
+                    <div class="switch-labal">
                         <span>Open print preview</span>
-                    </label>
+                    </div>
+                    <div class="switch">
+                        <label>
+                            Off
+                            <input type="checkbox" name="doPrint">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
