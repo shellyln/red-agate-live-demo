@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<head>
+    <title>RedAgate Live Demo</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <style>
+        html {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background-color: rgb(119, 11, 11);
+            color: whitesmoke;
+        }
+        .switch-wrap {
+            display: flex;
+            margin: 5px 5px 10px;
+        }
+        .switch-labal {
+            width: 160px;
+        }
+        .switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #ff8a80 !important;
+        }
+        .switch label input[type=checkbox]:checked+.lever {
+            background-color: #e53935 !important;
+        }
+        .cmd-button {
+            padding-left: 10px;
+            padding-right: 10px;
+            width: 7em;
+        }
+        #preview-wrap {
+            width: 100%;
+            height: calc(100% - 100px);
+            margin: 0;
+        }
+        #preview-container {
+            flex-grow: 3;
+            height: 100%;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        #preview {
+            width: 100%;
+            height: 100%;
+            display: block;
+            background-color: lightgrey;
+        }
+        #preview-src-container {
+            flex-grow: 2;
+            height: 100%;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        #preview-src {
+            width: 100%;
+            height: 100%;
+            display: block;
+            background-color: whitesmoke;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.8.2/superagent.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+    <script>
+        require.config({
+            paths: {
+                jquery: 'https://code.jquery.com/jquery-3.2.1.min.js',
+                materialize: 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js',
+                app: 'app'
+            }
+        });
+
+        function isIe() {
+            return (
+                navigator.appName == 'Microsoft Internet Explorer' ||
+                (navigator.appName == "Netscape" && navigator.appVersion.indexOf('Trident') > -1)
+            );
+        }
+
+        function isEdge() {
+            return (
+                (navigator.appName == "Netscape" && navigator.appVersion.indexOf('Edge') > -1)
+            );
+        }
+
+        function setContentToIframe(iframe, content) {
+            if (isIe()) {
+                var doc = iframe.contentWindow.document.open("text/html","replace");
+                doc.write(content);
+                doc.close();
+            } else if (isEdge()) {
+                var blob = new Blob([content], {type : 'text/html'});
+                iframe.src = URL.createObjectURL(blob);
+                setTimeout(function() {
+                    try {
+                        blob.msClose();
+                    } catch (e) {
+                        console.error(e);
+                        try {
+                            blob.close();
+                        } catch (e2) {
+                            console.error(e2);
+                        }
+                    }
+                }, 5000);
+            } else {
+                iframe.src = 'data:text/html;base64,' + btoa(unescape(encodeURIComponent(content)));
+            }
+        }
+
+        function escapeHtml(s) {
+            return s
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function toggleCode() {
+            var iframe = document.getElementById('preview-src-container');
+            iframe.style.display = iframe.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function renderReport(name, runPrint) {
+            require(['app'], function(app) {
+                var handler = app.barcodeTestHandler;
+                var data = app.kanbanData;
+                var src = '';
+
+                switch (name) {
+                case 'billing':
+                    handler = app.billngReportHandler;
+                    data = app.billngData;
+                    src = 'https://raw.githubusercontent.com/shellyln/red-agate-live-demo/master/src/examples/billing.tsx';
+                    break;
+                case 'kanban':
+                    handler = app.kanbanReportHandler;
+                    data = app.kanbanData;
+                    src = 'https://raw.githubusercontent.com/shellyln/red-agate-live-demo/master/src/examples/kanban.tsx';
+                    break;
+                case 'fba-a4':
+                    handler = app.fbaA4ReportHandler;
+                    data = app.kanbanData;
+                    src = 'https://raw.githubusercontent.com/shellyln/red-agate-live-demo/master/src/examples/fba-a4.tsx';
+                    break;
+                case 'barcode-test':
+                    handler = app.barcodeTestHandler;
+                    data = app.kanbanData;
+                    src = 'https://raw.githubusercontent.com/shellyln/red-agate-live-demo/master/src/examples/barcode-test.tsx';
+                    break;
+                }
+                handler(data, {}, function(error, result) {
+                    if (error) {
+                        console.error(error);
+                    } else {
+                        if (runPrint && !isIe()) {
+                            result = result.replace(/<\/body>\s*(<\/html>\s*)$/, '<script>window.print()<' + '/script></body>$1');
+                        }
+                        setContentToIframe(document.getElementById('preview'), result);
+                        if (runPrint && isIe()) {
+                            document.getElementById('preview').contentWindow.print();
+                        }
+                    }
+                });
+                var request = window.superagent;
+                request
+                .get(src)
+                .end(function(err, res){
+                    if (res) {
+                        setContentToIframe(document.getElementById('preview-src'),
+                            '<html><body>' +
+                            '<link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">' +
+                            '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">' +
+                            '<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"><' + '/script>' +
+                            '<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"><' + '/script>' +
+                            '<pre><code class="tsx" style="overflow: visible !important; font-family: \'Ubuntu Mono\', monospace;">' + escapeHtml(res.text.trim()) + '</code></pre>' +
+                            '<script>hljs.initHighlightingOnLoad();<' + '/script>' +
+                            '</body></html>'
+                        );
+                    }
+                });
+            });
+        }
+
+        renderReport();
+    </script>
+</head>
+<body>
+    <div id="preview-wrap" style="display: flex;">
+        <div id="preview-container"><iframe id="preview"></iframe></div>
+        <div id="preview-src-container" style="display: none;"><iframe id="preview-src"></iframe></div>
+    </div>
+    <form style="margin: 10px;" name="configForm">
+        <div style="display: flex;">
+            <div><a href="https://shellyln.github.io/red-agate/"><img src="https://shellyln.github.io/assets/image/redagate-logo.svg" style="width: 200px;"></a></div>
+            <div style="margin-left: 20px;">
+                <h5>RedAgate Live Demo</h5>
+                <button type="button" class="cmd-button waves-effect waves-light btn red darken-1" onclick="renderReport('billing', document.configForm.doPrint.checked)">Billing</button>
+                <button type="button" class="cmd-button waves-effect waves-light btn red darken-1" onclick="renderReport('kanban', document.configForm.doPrint.checked)">Kanban</button>
+                <button type="button" class="cmd-button waves-effect waves-light btn red darken-1" onclick="renderReport('fba-a4', document.configForm.doPrint.checked)">FBA Label</button>
+                <button type="button" class="cmd-button waves-effect waves-light btn red darken-1" onclick="renderReport('barcode-test', document.configForm.doPrint.checked)">Barcodes</button>
+            </div>
+            <div style="margin-left: 40px;">
+                <div class="switch-wrap">
+                    <div class="switch-labal">
+                        <span>Show code</span>
+                    </div>
+                    <div class="switch">
+                        <label>
+                            Off
+                            <input type="checkbox" name="showCode" onchange="toggleCode()">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </div>
+                <div class="switch-wrap">
+                    <div class="switch-labal">
+                        <span>Open print preview</span>
+                    </div>
+                    <div class="switch">
+                        <label>
+                            Off
+                            <input type="checkbox" name="doPrint">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
