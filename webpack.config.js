@@ -39,7 +39,7 @@ return [{
         node: {
             fs: false,
             console: false,
-            process: true,
+            process: false,
             global: false,
             __filename: false,
             __dirname: false,
