@@ -1,11 +1,6 @@
 
 /** @jsx RedAgate.createElement */
 import * as RedAgate             from 'red-agate/modules/red-agate';
-import { App }                   from 'red-agate/modules/red-agate/app';
-
-
-// tslint:disable-next-line:no-eval
-export const requireDynamic = eval("require");
 
 
 export { billngReportHandler,
