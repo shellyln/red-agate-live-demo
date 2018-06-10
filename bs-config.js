@@ -8,6 +8,7 @@ module.exports = {
     "port": 8080,
     "server": {
         "baseDir": "dist",
+        "index": "demo.html",
         "routes": {
             "/node_modules": "node_modules",
         },

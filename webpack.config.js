@@ -3,38 +3,16 @@ var webpack = require('webpack');
 
 
 module.exports = function (env) {
-    var plugins = [
-        // new webpack.ContextReplacementPlugin(
-        //     // The (\\|\/) piece accounts for path separators in *nix and Windows
-        //     /angular(\\|\/)core/,
-        //     root('./src'), // location of your src
-        //     { }
-        // ),
-        // new webpack.ProvidePlugin({
-        //     jQuery: "jquery", // use from bootstrap
-        //     Tether: "tether", // use from bootstrap
-        // })
-    ];
-    if (env && env.watch) {
-        var WebpackShellPlugin = require('webpack-shell-plugin');
-
-        plugins.push(
-            new WebpackShellPlugin({
-                // onBuildStart:['echo "Webpack Start"'],
-                onBuildEnd:['npm start'],
-                dev: false
-            })
-        );
-    }
+    var plugins = [];
 
 return [{
         entry: (env && env.env === 'test') ? void 0 : {
             app: [
                 path.resolve(__dirname, 'src/app.tsx')
             ],
-            spec: [
-                path.resolve(__dirname, 'src/_spec/index.ts')
-            ]
+            // spec: [
+            //     path.resolve(__dirname, 'src/_spec/index.ts')
+            // ]
         },
         node: {
             fs: false,

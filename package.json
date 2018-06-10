@@ -53,8 +53,7 @@
     "typescript": "^2.9.1",
     "url-loader": "^1.0.1",
     "webpack": "^4.12.0",
-    "webpack-cli": "^3.0.3",
-    "webpack-shell-plugin": "^0.5.0"
+    "webpack-cli": "^3.0.3"
   },
   "scripts": {
     "start": "lite-server -c=bs-config.js",
@@ -68,9 +67,8 @@
     "build:esm": "tsc --outDir modules --declaration --declarationDir ./declarations",
     "lint": "tslint ./src/**/*.ts -t verbose",
     "test": "jasmine",
-    "watch": "run-p watch:webpack watch:web",
-    "watch:web": "run-s start:web",
-    "watch:webpack": "webpack --config webpack.config.js --watch --env.watch"
+    "watch": "run-p watch:webpack start",
+    "watch:webpack": "webpack-cli --mode=development --config webpack.config.js --watch --env.watch"
   },
   "repository": {
     "type": "git",
