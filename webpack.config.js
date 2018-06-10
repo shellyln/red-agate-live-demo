@@ -10,9 +10,9 @@ return [{
             app: [
                 path.resolve(__dirname, 'src/app.tsx')
             ],
-            // spec: [
-            //     path.resolve(__dirname, 'src/_spec/index.ts')
-            // ]
+            spec: [
+                path.resolve(__dirname, 'src/_spec/index.ts')
+            ]
         },
         node: {
             fs: false,
