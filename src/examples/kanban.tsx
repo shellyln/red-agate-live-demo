@@ -1,4 +1,5 @@
 
+/** @jsx RedAgate.createElement */
 import * as RedAgate       from 'red-agate/modules/red-agate';
 import { ForEach,
          If,
@@ -192,11 +193,11 @@ const Kanban = (props: {leaf: KanbanDetail}) =>
 
 export let kanbanReportHandler: AwsLambda = (event: KanbanPrintJob, context, callback) => RedAgate.renderOnAwsLambda(
 <Html5>
-    <Asset contextName="logo-asset" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Emoticon_Smile_Face.svg"/>
-    <Asset contextName="qr-asset" src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"/>
+    <Asset contextName="logo-asset" src="https://shellyln.github.io/assets/app/Emoticon_Smile_Face.svg"/>
+    <Asset contextName="qr-asset" src="https://shellyln.github.io/assets/app/QR_code_for_mobile_English_Wikipedia.svg"/>
     <head>
         <title>Kanban</title>
-        <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet"/>
+        <Font src="https://fonts.googleapis.com/css?family=Noto+Sans"/>
         <Style src="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css"/>
         <Style src="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css"/>
         <style dangerouslySetInnerHTML={{ __html: require('./kanban.style.css') }}/>
