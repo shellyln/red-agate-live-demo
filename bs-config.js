@@ -8,12 +8,13 @@ module.exports = {
     "port": 8080,
     "server": {
         "baseDir": "dist",
-        "index": "demo.html",
         "routes": {
+            "/src": "src",
             "/node_modules": "node_modules",
         },
         "middleware": {
-            0: setHeader
+            1: setHeader
         }
-    }
+    },
+    startPath: "/demo.html"
 }
