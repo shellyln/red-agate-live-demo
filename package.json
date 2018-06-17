@@ -1,41 +1,41 @@
 {
   "name": "red-agate-live-demo",
   "private": false,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "red-agate live demo",
   "keywords": [],
-  "main": "./bin/index.js",
+  "main": "./dist/app.js",
   "module": "./modules/index.js",
   "modules.root": "./modules",
   "types": "./bin/index.d.ts",
   "typings": "./bin/index.d.ts",
   "engines": {
-    "node": "9.x"
+    "node": ">=8.0"
   },
   "dependencies": {
-    "red-agate": "^0.1.1",
-    "red-agate-barcode": "^0.1.1"
+    "red-agate": "^0.1.2",
+    "red-agate-barcode": "^0.1.2"
   },
   "peerDependencies": {
-    "red-agate-math": "^0.1.1",
-    "red-agate-svg-canvas": "^0.1.1",
-    "red-agate-util": "^0.1.1"
+    "red-agate-math": "^0.1.2",
+    "red-agate-svg-canvas": "^0.1.2",
+    "red-agate-util": "^0.1.2"
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.8",
-    "@types/node": "^10.3.2",
+    "@types/node": "^10.3.3",
     "autoprefixer": "^8.6.2",
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
     "cpx": "^1.5.0",
-    "cross-env": "^5.1.6",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-loader": "^0.5.5",
     "jasmine": "^3.1.0",
     "jasmine-spec-reporter": "^4.2.1",
-    "karma": "^2.0.2",
+    "karma": "^2.0.3",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.1.2",
     "karma-requirejs": "^1.1.0",
@@ -56,10 +56,10 @@
     "to-string-loader": "^1.1.5",
     "ts-loader": "^4.4.1",
     "tslint": "^5.10.0",
-    "typescript": "^2.9.1",
+    "typescript": "^2.9.2",
     "url-loader": "^1.0.1",
     "webpack": "^4.12.0",
-    "webpack-cli": "^3.0.3"
+    "webpack-cli": "^3.0.8"
   },
   "scripts": {
     "start": "lite-server -c=bs-config.js",
