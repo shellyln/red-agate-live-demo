@@ -15,6 +15,18 @@
     src: local('Libre Barcode 39 Text Regular'), local('LibreBarcode39Text-Regular'), url(https://fonts.gstatic.com/s/librebarcode39text/v5/O4inMvtTcDsw_GI-nhT1ngA9s1DpUaeSeqfKrIEfYns.woff2) format('woff2');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
+
+/**
+ * Remove most spacing between table cells.
+ */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+td, th {
+    padding: 0;
+}
+
 body {
     font-family: 'Arvo', serif;
 }

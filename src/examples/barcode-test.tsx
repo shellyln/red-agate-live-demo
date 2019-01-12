@@ -40,8 +40,8 @@ export let barcodeTestHandler: Lambda = (event: any, context, callback) => RedAg
     <head>
         <title>barcode</title>
         <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet"/>
-        <Style src="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css"/>
-        <Style src="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css"/>
+        <Style src="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"/>
+        <Style src="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css"/>
         <style dangerouslySetInnerHTML={{ __html: require('./fba-a4.style.css') }}/>
     </head>
 
@@ -56,7 +56,7 @@ export let barcodeTestHandler: Lambda = (event: any, context, callback) => RedAg
 
                     <PrinterMarks x={15} y={20} width={100} height={130} hFold={[10, 20, 30]} vFold={[25, 15, 5]} centerMarks={true} bleedMarks={true} />
 
-                    <Qr x={15} y={5}
+                    <Qr x={15} y={5} cellSize={0.8}
                         data="Hello" />
                     <Code39 x={15} y={40}
                         data="HELLO"

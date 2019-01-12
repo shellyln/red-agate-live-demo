@@ -80,8 +80,8 @@ export let billngReportHandler: Lambda<BillingStatement> = (event, context, call
 
     <head>
         <title>Billing statement</title>
-        <Style src="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css"/>
-        <Style src="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css"/>
+        <Style src="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"/>
+        <Style src="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css"/>
         <style dangerouslySetInnerHTML={{ __html: require('./billing.style.css') }}/>
     </head>
 
